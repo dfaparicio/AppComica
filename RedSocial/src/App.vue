@@ -50,12 +50,12 @@
           </div>
 
           <!-- Contenido TENDENCIAS -->
-          <div v-show="tab === 'tendencias'" class="column">
-            <div>TENDENCIAS</div>
+          <div v-show="tab === 'tendencias'" class="column justify-center q-gutter-xl">
+            <div><h3 class="text-center">TENDENCIAS</h3></div>
 
-            <div>
+            <div class="column justify-center q-gutter-md">
               <!-- LIKES -->
-              <div>
+              <div class="row justify-center q-gutter-md">
                 <CardsLikes
                   v-for="(t, i) in top"
                   :key="i"
@@ -66,7 +66,7 @@
               </div>
 
               <!-- COMPARTIDOS -->
-              <div>
+              <div class="row justify-center q-gutter-md">
                 <CardsLikes
                   v-for="(t, i) in top"
                   :key="i"
@@ -77,7 +77,7 @@
               </div>
 
               <!-- GLOBAL -->
-              <div>
+              <div class="row justify-center q-gutter-md">
                 <CardsLikes
                   v-for="(t, i) in top"
                   :key="i"
@@ -97,15 +97,12 @@
 
 <script setup>
 import { ref } from "vue";
-
+import Logo from "./assets/Logo.png";
+import CardsLikes from "./components/CardsLikes.vue";
 import CardParaTi from "./components/CardParaTi.vue";
 import cardsParati from "./data/cards.js";
 
 const infoCards = ref(cardsParati.value);
-
-import Logo from "./assets/Logo.png";
-
-import CardsLikes from "./components/CardsLikes.vue";
 
 const tab = ref("parati");
 
