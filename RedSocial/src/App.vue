@@ -40,8 +40,13 @@
 
             <!-- Contenido PARA TI -->
             <div v-show="tab === 'parati'">
-              <h4>Contenido Para ti</h4>
-              <p>Aquí va lo que quieras mostrarle al usuario.</p>
+              <div class="contenedor-cards">
+                <CardParaTi
+                  v-for="(card, index) in infoCards"
+                  :key="index"
+                  :card="card"
+                />
+              </div>
             </div>
 
             <!-- Contenido TENDENCIAS -->
@@ -49,7 +54,6 @@
               <h4>Tendencias</h4>
               <p>Aquí van las cosas populares del momento.</p>
             </div>
-
           </q-page>
         </q-page-container>
       </q-layout>
@@ -61,7 +65,13 @@
 <script setup>
 import { ref } from "vue";
 
-const tab = ref("parati"); 
+const tab = ref("parati");
+
+import CardParaTi from "./components/CardParaTi.vue";
+import cardsParati  from "./data/cards.js";
+
+const infoCards = ref(cardsParati.value);
+
 </script>
 
 <style scoped>
