@@ -1,5 +1,25 @@
 import { createApp } from 'vue'
-import './style.css'
+import { Quasar, Notify } from 'quasar'
+import quasarIconSet from 'quasar/icon-set/material-icons'
+import quasarLang from 'quasar/lang/es'
 import App from './App.vue'
+import './style.css'
 
-createApp(App).mount('#app')
+
+
+
+
+import 'quasar/src/css/index.sass'
+
+
+
+const app = createApp(App)
+
+app.use(Quasar, {
+  plugins: { Notify },
+  iconSet: quasarIconSet,
+  lang: quasarLang // import Quasar plugins and add here
+})
+
+// Assumes you have a <div id="app"></div> in your index.html
+app.mount('#app')
