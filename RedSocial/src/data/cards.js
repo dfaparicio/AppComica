@@ -8,7 +8,7 @@ const cardsParatiData = ref([
     descripcion: "🔥 Recibo de 1.8 metros. Encontré un yogur de sabor 'galaxia'.",
     hashtags: ["#ReciboLargo", "#SuperMercado", "#TicketInfluencer"],
     likes: 842,
-    comentarios: 126,
+    comentarios: 10000,
     compartidos: 57
   },
   {
@@ -37,8 +37,8 @@ const cardsParatiData = ref([
     imagenPublicacion: "https://img.restaurantguru.com/r418-Chifa-Fung-Shing-menu.jpg",
     descripcion: "Compré ingredientes para una receta y terminé con 32 items 🙃",
     hashtags: ["#CocinaFail", "#ReciboGigante"],
-    likes: 622,
-    comentarios: 74,
+    likes: 5000,
+    comentarios: 5000,
     compartidos: 19
   }
 ]);

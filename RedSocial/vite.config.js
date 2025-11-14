@@ -5,11 +5,12 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
+
   plugins: [
     vue({
       template: { transformAssetUrls },
     }),
-
     quasar({
       sassVariables: fileURLToPath(
         new URL('./src/quasar-variables.sass', import.meta.url)
@@ -17,18 +18,14 @@ export default defineConfig({
     }),
   ],
 
-  // 👇 muy importante para que las rutas de imágenes funcionen tras el build
-  base: './',
-
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)), // acceso directo a /src
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    assetsDir: 'assets', // asegura que las imágenes estén en /assets
-  },
+  }
 })
