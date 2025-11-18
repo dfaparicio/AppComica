@@ -39,5 +39,27 @@
 </script>
 
 <style scoped>
+    .nombre{
+        display: grid;
+        grid-template-columns: 10% 90%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nombre img{
+        width: 40px;
+    }
+
+    .nombre p{
+        margin: 0;
+
+    }
+
+    .img{
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
+
     
 </style>
