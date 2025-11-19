@@ -1,9 +1,16 @@
 <template>
   <div>
-    <q-layout view="lHh lpr lFf" container style="height: 100vh; overflow: hidden" class="shadow-2 rounded-borders">
+    <q-layout
+      view="lHh lpr lFf"
+      container
+      style="height: 100vh; overflow: hidden"
+      class="shadow-2 rounded-borders"
+    >
       <!-- ========= ENCABEZADO ========= -->
       <q-header bordered class="bg-white">
-        <q-toolbar class="text-primary items-center q-gutter-md row justify-center q-pa-md">
+        <q-toolbar
+          class="text-primary items-center q-gutter-md row justify-center q-pa-md"
+        >
           <q-avatar>
             <img :src="LogoPag" />
           </q-avatar>
@@ -14,7 +21,13 @@
 
       <!-- ======== PIE DE PÁGINA ====== -->
       <q-footer bordered class="bg-grey-3 text-primary">
-        <q-tabs no-caps active-color="primary" indicator-color="transparent" class="text-grey-8" v-model="tab">
+        <q-tabs
+          no-caps
+          active-color="primary"
+          indicator-color="transparent"
+          class="text-grey-8"
+          v-model="tab"
+        >
           <q-tab name="parati" label="Para tí" />
           <q-tab name="tendencias" label="Tendencias" />
         </q-tabs>
@@ -27,13 +40,22 @@
 
           <!-- Contenido PARA TI -->
           <div v-show="tab === 'parati'">
-            <div class="contenedor-cards">
-              <CardParaTi v-for="(card, index) in infoCards" :key="index" :card="card" />
+            <div
+              class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg"
+            >
+              <CardParaTi
+                v-for="card in infoCards"
+                :key="card.nombreUsuario"
+                :card="card"
+              />
             </div>
           </div>
 
           <!-- Contenido TENDENCIAS -->
-          <div v-show="tab === 'tendencias'" class="column justify-center q-gutter-xl">
+          <div
+            v-show="tab === 'tendencias'"
+            class="column justify-center q-gutter-xl"
+          >
             <div>
               <h3 class="text-center">TENDENCIAS</h3>
             </div>
@@ -45,7 +67,11 @@
                   <p>Likes</p>
                 </div>
                 <div>
-                  <CardsLikes v-for="(item, i) in Likes" :key="i" :item="item" />
+                  <CardsLikes
+                    v-for="(item, i) in Likes"
+                    :key="i"
+                    :item="item"
+                  />
                 </div>
               </div>
 
@@ -55,7 +81,11 @@
                   <p>Comentarios</p>
                 </div>
                 <div>
-                  <CardsLikes v-for="(item, i) in Comentarios" :key="i" :item="item" />
+                  <CardsLikes
+                    v-for="(item, i) in Comentarios"
+                    :key="i"
+                    :item="item"
+                  />
                 </div>
               </div>
 
@@ -65,11 +95,13 @@
                   <p>Compartidos</p>
                 </div>
                 <div>
-                  <CardsLikes v-for="(item, i) in Compartidos" :key="i" :item="item" />
+                  <CardsLikes
+                    v-for="(item, i) in Compartidos"
+                    :key="i"
+                    :item="item"
+                  />
                 </div>
               </div>
-
-
             </div>
 
             <!-- GLOBAL -->
@@ -81,9 +113,7 @@
                 <CardsLikes v-for="(item, i) in Global" :key="i" :item="item" />
               </div>
             </div>
-
           </div>
-
         </q-page>
       </q-page-container>
     </q-layout>
@@ -103,10 +133,8 @@ import CardParaTi from "./components/CardParaTi.vue";
 const infoCards = ref(cardsParati.value);
 import cardsParati from "./data/cards.js";
 
-
 const tab = ref("parati");
 import { Likes, Comentarios, Compartidos, Global } from "./data/CardsTop.js";
-
 </script>
 
 <style scoped>
