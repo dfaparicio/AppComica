@@ -22,27 +22,64 @@
     <hr />
 
     <div class="interaccion">
-      <div
-        class="like"
-        :class="{ active: infoCard.liked}"
-        @click="toggleLike()"
-      >
-        ❤️ {{ infoCard.likes }}
+      <div class="like" :class="{ active: infoCard.liked }" @click="toggleLike">
+        {{ infoCard.likes }}
       </div>
 
-      <div class="comentario">
-        💬 {{ infoCard.comentarios }}
+      <div class="comentario" @click="abrirComentario">
+        💬 {{ infoCard.comentarios.length }}
       </div>
 
-      <div class="compartido">
+      <q-dialog v-model="modalComentario" persistent>
+        <q-card style="min-width: 350px">
+          <q-card-section>
+            <div class="text-h6">Nuevo comentario</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input
+              dense
+              v-model="nuevoComentario"
+              autofocus
+              @keyup.enter="guardarComentario"
+              placeholder="Escribe un comentario..."
+            />
+          </q-card-section>
+
+          <q-card-section>
+            <div v-if="infoCard.comentarios.length === 0" class="text-grey-6">
+              No hay comentarios aún...
+            </div>
+
+            <div v-else class="column q-gutter-sm">
+              <div
+                v-for="(comentario, index) in infoCard.comentarios"
+                :key="index"
+                class="q-pa-sm bg-grey-2 rounded-borders"
+              >
+                {{ comentario }}
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="Cancelar" v-close-popup />
+            <q-btn flat label="Agregar" @click="guardarComentario" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <div class="compartido" @click="compartir">
         🔄 {{ infoCard.compartidos }}
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
-import { reactive, watch } from "vue";
+import { ref, reactive, watch } from "vue";
+import { Loading } from "quasar";
 
 const props = defineProps({
   card: {
@@ -51,7 +88,12 @@ const props = defineProps({
   },
 });
 
-const infoCard = reactive({ ...props.card });
+const infoCard = reactive({
+  ...props.card,
+  comentarios: Array.isArray(props.card.comentarios)
+    ? props.card.comentarios
+    : [],
+});
 
 if (!infoCard.id) {
   infoCard.id = infoCard.nombreUsuario;
@@ -60,32 +102,62 @@ if (!infoCard.id) {
 let cardsGuardadas = JSON.parse(localStorage.getItem("cards")) || {};
 
 if (cardsGuardadas[infoCard.id]) {
-  const guardado = cardsGuardadas[infoCard.id];
+  Object.assign(infoCard, cardsGuardadas[infoCard.id]);
 
-  for (const key in guardado) {
-    if (key in infoCard) {
-      infoCard[key] = guardado[key];
-    }
+  if (!Array.isArray(infoCard.comentarios)) {
+    infoCard.comentarios = [];
   }
+}
+
+const emit = defineEmits(["compartido", "like-change"]);
+
+function compartir() {
+  Loading.show({ message: "Compartiendo...", spinnerSize: 60 });
+
+  setTimeout(() => {
+    infoCard.compartidos++;
+    emit("compartido", infoCard.id);
+    Loading.hide();
+  }, 1200);
+}
+
+const modalComentario = ref(false);
+const nuevoComentario = ref("");
+
+function abrirComentario() {
+  modalComentario.value = true;
+}
+
+function guardarComentario() {
+  const texto = nuevoComentario.value.trim();
+  if (!texto) return;
+
+  infoCard.comentarios.push(texto);
+
+  nuevoComentario.value = "";
+  modalComentario.value = false;
 }
 
 function toggleLike() {
   infoCard.liked = !infoCard.liked;
   infoCard.likes += infoCard.liked ? 1 : -1;
+
+  emit("like-change", {
+    id: infoCard.id,
+    liked: infoCard.liked,
+    likes: infoCard.likes,
+  });
 }
 
 watch(
   infoCard,
   (nuevo) => {
-    const copia = JSON.parse(JSON.stringify(nuevo));
-
-    cardsGuardadas[infoCard.id] = copia;
+    cardsGuardadas[infoCard.id] = { ...nuevo };
     localStorage.setItem("cards", JSON.stringify(cardsGuardadas));
   },
   { deep: true }
 );
 </script>
-
 
 <style scoped>
 #app {
@@ -185,8 +257,14 @@ p {
 }
 
 @keyframes pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.3); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

@@ -40,6 +40,7 @@
 
           <!-- Contenido PARA TI -->
           <div v-show="tab === 'parati'">
+            
             <div
               class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg"
             >
