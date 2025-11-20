@@ -16,8 +16,8 @@ defineProps({
     type: String,
     required: true,
   },
-  textcolor:{
-    type:String,
+  textcolor: {
+    type: String,
     default: 'black',
   }
 });
@@ -39,8 +39,10 @@ defineProps({
   justify-content: space-between;
 }
 
-.titulo{
-  font-size: 2rem;
-  margin-bottom: 1rem;
+.titulo {
+  text-align: center;
+  font-size: clamp(1.3rem, 4vw, 4rem);
+  font-family: "Luckiest Guy", cursive;
+  text-shadow: none;
 }
 </style>

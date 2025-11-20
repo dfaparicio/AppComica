@@ -1,82 +1,49 @@
 <template>
-  
 
+  <div v-if="Intro">
+    <CardInicio :fondo="Fondo1" titulo="Las Aventuras de Billy e Ikea la Estantería" class="column justify-center">
+      <BotonIniciar :onStart="MostrarCarrusel" />
+    </CardInicio>
+  </div>
 
-    <q-carousel
-   
-      class="carrusel"
-      swipeable
-      animated
-      v-model="slide"
-      :autoplay="autoplay"
-      ref="carousel"
-      infinite
-    >
-      <q-carousel-slide
-        v-for="(escena, index) in escenas"
-        :key="index"
-        :name="index + 1"
-      >
+  <div v-else>
+    <q-carousel class="carrusel" swipeable animated v-model="slide" :autoplay="autoplay" ref="carousel" infinite>
+      <q-carousel-slide v-for="(escena, index) in escenas" :key="index" :name="index + 1">
         <div class="absolute-full">
           <CardFondo :imagen="escena.fondo" :titulo="escena.titulo">
             <div class="Contenido">
               <div class="Billy relative-position">
-                <div><img :src="escena.imgBilly" /></div>
+                <div class="Martillo"><img v-if="escena.imgBilly" :src="escena.imgBilly" /></div>
               </div>
               <div class="Caja">
-                <img :src="escena.imgIkea" />
+                <img v-if="escena.imgIkea" :src="escena.imgIkea" />
               </div>
-              <DivMensaje class="BuBilly" :texto="escena.bubbleBilly" />
-              <DivMensaje2 class="BuIkea" :texto="escena.bubbleIkea" />
-              <DivMensaje3 class="Narrador" :texto="escena.narrador" />
+              <DivMensaje v-if="escena.bubbleBilly" class="BuBilly" :texto="escena.bubbleBilly" />
+
+              <DivMensaje2 v-if="escena.bubbleIkea" class="BuIkea" :texto="escena.bubbleIkea" />
+
+              <DivMensaje3 v-if="escena.narrador" class="Narrador" :texto="escena.narrador" />
+
             </div>
           </CardFondo>
         </div>
       </q-carousel-slide>
 
       <template v-slot:control>
-        <q-carousel-control
-          position="top-right"
-          :offset="[18, 18]"
-          class="text-white rounded-borders"
-          style="background: rgba(0, 0, 0, 0.3); padding: 4px 8px"
-        >
-          <q-toggle
-            class="text-white"
-            dense
-            dark
-            color="orange"
-            v-model="autoplay"
-            label="Auto Play"
-          />
+        <q-carousel-control position="top-right" :offset="[18, 18]" class="text-white rounded-borders"
+          style="background: rgba(0, 0, 0, 0.3); padding: 4px 8px">
+          <q-toggle class="text-white" dense dark color="orange" v-model="autoplay" label="Auto Play" />
         </q-carousel-control>
 
-        <q-carousel-control
-          position="bottom-right"
-          :offset="[18, 18]"
-          class="q-gutter-xs"
-        >
-          <q-btn
-            push
-            round
-            dense
-            color="orange"
-            text-color="black"
-            icon="arrow_back"
-            @click="$refs.carousel.previous()"
-          />
-          <q-btn
-            push
-            round
-            dense
-            color="orange"
-            text-color="black"
-            icon="arrow_forward"
-            @click="$refs.carousel.next()"
-          />
+        <q-carousel-control position="bottom-right" :offset="[18, 18]" class="q-gutter-xs">
+          <q-btn push round dense color="orange" text-color="black" icon="arrow_back"
+            @click="$refs.carousel.previous()" />
+          <q-btn push round dense color="orange" text-color="black" icon="arrow_forward"
+            @click="$refs.carousel.next()" />
         </q-carousel-control>
       </template>
     </q-carousel>
+  </div>
 
 </template>
 
@@ -106,12 +73,14 @@ import BillyAsustado from "./assets/BillyAsustado.png";
 import Llorando from "./assets/Llorando.png";
 import LlorandoIkea from "./assets/LlorandoIkea.png";
 import Respira from "./assets/Respira.png";
+import Fondo1 from "./assets/Fondo1.png";
+import Fin from "./assets/Fin.png";
 
 const slide = ref(1);
 const autoplay = ref(false);
-const Intro = ref(true);
 
-function MostarCarrusel() {
+const Intro = ref(true);
+function MostrarCarrusel() {
   Intro.value = false;
 }
 
@@ -218,7 +187,7 @@ const escenas = [
     imgBilly: Llorando,
     imgIkea: LlorandoIkea,
     fondo: Fondo,
-  },
+  }
 ];
 </script>
 
@@ -268,21 +237,172 @@ body {
   right: 10%;
   top: 30%;
 }
+
 .Narrador {
   position: absolute;
   top: 15%;
-  left: 40%;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 
 .intro-container {
   position: relative;
   width: 100vw;
   height: 100vh;
 }
+
 .boton-wrapper {
   position: absolute;
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+
+@media (max-width: 1600px) {
+  .BuBilly {
+    position: absolute;
+    left: 5%;
+    top: 40%;
+  }
+
+  .BuIkea {
+    position: absolute;
+    right: 5%;
+    top: 35%;
+  }
+}
+
+
+
+@media (max-width: 1350px) {
+  .BuBilly {
+    position: absolute;
+    left: 0%;
+    top: 40%;
+  }
+
+  .BuIkea {
+    position: absolute;
+    right: 0%;
+    top: 35%;
+  }
+}
+
+
+
+@media (max-width: 1250px) {
+  .Contenido {
+    gap: 10%;
+  }
+}
+
+
+@media (max-width: 1000px) {
+  .Contenido {
+    gap: 0%;
+  }
+}
+
+@media (max-width: 900px) {
+  .Caja img {
+    width: 350px;
+    height: auto;
+  }
+
+  .Martillo img {
+    width: 350px;
+    height: auto;
+  }
+
+  .BuBilly {
+    position: absolute;
+    left: 0%;
+    top: 55%;
+  }
+
+  .BuIkea {
+    position: absolute;
+    right: 0%;
+    top: 50%;
+  }
+}
+
+@media (max-width: 800px) {
+  .Contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .BuBilly {
+    position: absolute;
+    left: 45%;
+    top: 45%;
+  }
+
+  .BuIkea {
+    position: absolute;
+    left: 45%;
+    top: 70%;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .Caja img {
+    width: 300px;
+    height: auto;
+  }
+
+  .Martillo img {
+    width: 300px;
+    height: auto;
+  }
+
+  .Narrador {
+    top: 10%;
+  }
+}
+
+
+
+@media (max-width: 550px) {
+
+  .Narrador {
+    top: 8%;
+  }
+
+  .Contenido {
+    gap: 160px;
+  }
+
+  .Caja {
+    padding-bottom: 10px;
+  }
+
+    .Caja img {
+    width: 220px;
+    height: auto;
+  }
+
+  .Martillo img {
+    width: 220px;
+    height: auto;
+  }
+
+    .BuBilly {
+    position: absolute;
+    left: 10%;
+    top: 28%;
+  }
+
+  .BuIkea {
+    position: absolute;
+    left: 10%;
+    top: 65%;
+  }
+
 }
 </style>

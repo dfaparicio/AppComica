@@ -39,9 +39,11 @@ defineProps({
 
 .bubble-text {
   text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.1rem;    
+  letter-spacing: 1px;   
   line-height: 1.3;
   word-wrap: break-word;
+  font-family: "Luckiest Guy", cursive;
+  text-shadow: none;
 }
 </style>

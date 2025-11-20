@@ -1,48 +1,51 @@
 <template>
-  <button class="start-button" @click="onClick">
+  <button class="boton" @click="onClick">
     {{ texto }}
   </button>
 </template>
 
 <script setup>
-defineProps({
+const { texto, onStart } = defineProps({
   texto: {
     type: String,
     default: "Comenzar historia"
   },
-  onStart: {           
+  onStart: {
     type: Function,
     required: true
   }
 })
 
 function onClick() {
-  onStart()             
+  onStart()
 }
+
 </script>
 
 <style scoped>
-.start-button {
-  background-color: #ffcc00; 
-  color: #000;              
-  font-weight: bold;
-  font-size: 1.2rem;
-  padding: 0.8rem 2rem;
-  border: 3px solid #000;
-  border-radius: 25px;
+.boton {
+  background: #ffeb3b;                
+  color: #000;
+  font-weight: 900;                    
+  font-size: 1.4rem;                   
+  padding: 1rem 2.5rem;
+  border: 4px solid #000;               
+  border-radius: 30px;                  
   cursor: pointer;
-  box-shadow: 4px 4px 0 #000; 
-  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 6px 6px 0px #000;         
+  transition: 0.15s ease;
+  font-family: "Luckiest Guy", cursive;
+  letter-spacing: 1px;
 }
 
-.start-button:hover {
-  background-color: #ffdb4d; 
-  transform: translateY(-2px);
-  box-shadow: 6px 6px 0 #000; 
+.boton:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  background: #fff176;                  
+  box-shadow: 8px 8px 0px #000;
 }
 
-.start-button:active {
-  transform: translateY(2px);
-  box-shadow: 2px 2px 0 #000;
+.boton:active {
+  transform: translateY(3px) rotate(1deg);
+  box-shadow: 3px 3px 0px #000;
 }
 </style>

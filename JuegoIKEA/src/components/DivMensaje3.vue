@@ -34,13 +34,16 @@ defineProps({
   padding: 1rem 1.5rem;
   border-radius: 20px;
   max-width: 350px;
-  width: auto;
-  margin: 1.2rem;
+  width: 90%;
 }
 
 .bubble-text {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.1rem;    
+  letter-spacing: 1px;   
   line-height: 1.3;
+  word-wrap: break-word;
+  font-family: "Luckiest Guy", cursive;
+  text-shadow: none;
 }
 </style>

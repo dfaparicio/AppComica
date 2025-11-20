@@ -27,7 +27,7 @@ defineProps({
   display: inline-flex;      
   justify-content: center;
   align-items: center;
-  background-color: var(--bubble-color, #fff);
+  background-color: var(--bubble-color, #ffffff);
   padding: 1rem 1.5rem;
   border-radius: 20px;
   border: 3px solid #000;
@@ -39,9 +39,11 @@ defineProps({
 
 .bubble-text {
   text-align: center;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.1rem;    
+  letter-spacing: 1px;   
   line-height: 1.3;
   word-wrap: break-word;
+  font-family: "Luckiest Guy", cursive;
+  text-shadow: none;
 }
 </style>
