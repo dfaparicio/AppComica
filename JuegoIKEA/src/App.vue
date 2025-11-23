@@ -8,25 +8,38 @@
 
   <div v-else>
     <q-carousel class="carrusel" swipeable animated v-model="slide" :autoplay="autoplay" ref="carousel" infinite>
+
       <q-carousel-slide v-for="(escena, index) in escenas" :key="index" :name="index + 1">
-        <div class="absolute-full">
+
+        <div class="slide-content">
+
           <CardFondo :imagen="escena.fondo" :titulo="escena.titulo">
+            <div class="Narrador">
+              <DivMensaje3 v-if="escena.narrador" :texto="escena.narrador" />
+            </div>
+
             <div class="Contenido">
-              <div class="Billy relative-position">
-                <div class="Martillo"><img v-if="escena.imgBilly" :src="escena.imgBilly" /></div>
-              </div>
+
               <div class="Caja">
-                <img v-if="escena.imgIkea" :src="escena.imgIkea" />
+                <div class="Cajita">
+                  <DivMensaje v-if="escena.bubbleBilly" class="BuBilly" :texto="escena.bubbleBilly" />
+                </div>
+                <div class="CentradoImg"><img v-if="escena.imgBilly" :src="escena.imgBilly" /></div>
               </div>
-              <DivMensaje v-if="escena.bubbleBilly" class="BuBilly" :texto="escena.bubbleBilly" />
 
-              <DivMensaje2 v-if="escena.bubbleIkea" class="BuIkea" :texto="escena.bubbleIkea" />
-
-              <DivMensaje3 v-if="escena.narrador" class="Narrador" :texto="escena.narrador" />
+              <div class="Caja">
+                <div class="Cajita">
+                  <DivMensaje2 v-if="escena.bubbleIkea" class="BuIkea" :texto="escena.bubbleIkea" />
+                </div>
+                <div class="CentradoImg"><img v-if="escena.imgIkea" :src="escena.imgIkea" /></div>
+              </div>
 
             </div>
+
           </CardFondo>
+
         </div>
+
       </q-carousel-slide>
 
       <template v-slot:control>
@@ -74,7 +87,6 @@ import Llorando from "./assets/Llorando.png";
 import LlorandoIkea from "./assets/LlorandoIkea.png";
 import Respira from "./assets/Respira.png";
 import Fondo1 from "./assets/Fondo1.png";
-import Fin from "./assets/Fin.png";
 
 const slide = ref(1);
 const autoplay = ref(false);
@@ -195,19 +207,24 @@ const escenas = [
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   color: black;
+  font-family: "Luckiest Guy", cursive;
+}
+
+html,
+body,
+#app {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 
 html,
 body {
   width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
   background: white;
 }
 
-/* ---------- APP ---------- */
 #app {
   width: 100%;
   max-width: 1920px;
@@ -215,194 +232,63 @@ body {
   background: white;
 }
 
+.fondo{
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 2vw, 50px);
+}
+
+.q-carousel__slide{
+  padding: 0 !important;
+}
+
+.slide-content {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.Narrador{
+  display: flex;
+  justify-content: center;
+}
+
 .carrusel {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .Contenido {
   display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.Cajita {
+  display: flex;
+  justify-items: center;
   justify-content: center;
-  gap: 35%;
 }
 
-.BuBilly {
-  position: absolute;
-  left: 10%;
-  top: 30%;
+.CentradoImg{
+  display: flex;
+  justify-content: center;
 }
 
-.BuIkea {
-  position: absolute;
-  right: 10%;
-  top: 30%;
+.CentradoImg img {
+  width: clamp(300px, 30vw, 500px);
+  height: auto;
 }
-
-.Narrador {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 
 .intro-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
 }
-
-.boton-wrapper {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-
-@media (max-width: 1600px) {
-  .BuBilly {
-    position: absolute;
-    left: 5%;
-    top: 40%;
-  }
-
-  .BuIkea {
-    position: absolute;
-    right: 5%;
-    top: 35%;
-  }
-}
-
-
-
-@media (max-width: 1350px) {
-  .BuBilly {
-    position: absolute;
-    left: 0%;
-    top: 40%;
-  }
-
-  .BuIkea {
-    position: absolute;
-    right: 0%;
-    top: 35%;
-  }
-}
-
-
-
-@media (max-width: 1250px) {
-  .Contenido {
-    gap: 10%;
-  }
-}
-
 
 @media (max-width: 1000px) {
   .Contenido {
-    gap: 0%;
-  }
-}
-
-@media (max-width: 900px) {
-  .Caja img {
-    width: 350px;
-    height: auto;
-  }
-
-  .Martillo img {
-    width: 350px;
-    height: auto;
-  }
-
-  .BuBilly {
-    position: absolute;
-    left: 0%;
-    top: 55%;
-  }
-
-  .BuIkea {
-    position: absolute;
-    right: 0%;
-    top: 50%;
-  }
-}
-
-@media (max-width: 800px) {
-  .Contenido {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: center;
   }
-
-  .BuBilly {
-    position: absolute;
-    left: 45%;
-    top: 45%;
-  }
-
-  .BuIkea {
-    position: absolute;
-    left: 45%;
-    top: 70%;
-  }
-}
-
-
-@media (max-width: 700px) {
-  .Caja img {
-    width: 300px;
-    height: auto;
-  }
-
-  .Martillo img {
-    width: 300px;
-    height: auto;
-  }
-
-  .Narrador {
-    top: 10%;
-  }
-}
-
-
-
-@media (max-width: 550px) {
-
-  .Narrador {
-    top: 8%;
-  }
-
-  .Contenido {
-    gap: 160px;
-  }
-
-  .Caja {
-    padding-bottom: 10px;
-  }
-
-    .Caja img {
-    width: 220px;
-    height: auto;
-  }
-
-  .Martillo img {
-    width: 220px;
-    height: auto;
-  }
-
-    .BuBilly {
-    position: absolute;
-    left: 10%;
-    top: 28%;
-  }
-
-  .BuIkea {
-    position: absolute;
-    left: 10%;
-    top: 65%;
-  }
-
 }
 </style>

@@ -27,23 +27,23 @@ defineProps({
 
 <style scoped>
 .comic-bubble {
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border-radius: 20px;
-  max-width: 350px;
-  width: 90%;
+  background-color: var(--bubble-color, #fff);
+  padding: 5px 10px;
+  border-radius: 10px;
+  max-width: 90%;            
+  width: auto;                   
 }
 
 .bubble-text {
   text-align: center;
-  font-size: 1.1rem;    
-  letter-spacing: 1px;   
+  font-size: clamp(0.8rem, 2vw + 0.5rem, 1.5rem);
+  letter-spacing: 1px;
   line-height: 1.3;
-  word-wrap: break-word;
-  font-family: "Luckiest Guy", cursive;
   text-shadow: none;
+}
+
+
+p{
+  margin: 0;
 }
 </style>
