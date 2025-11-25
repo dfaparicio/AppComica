@@ -1,16 +1,9 @@
 <template>
   <div>
-    <q-layout
-      view="lHh lpr lFf"
-      container
-      style="height: 100vh; overflow: hidden"
-      class="shadow-2 rounded-borders"
-    >
+    <q-layout view="lHh lpr lFf" container style="height: 100vh; overflow: hidden" class="shadow-2 rounded-borders">
       <!-- ========= ENCABEZADO ========= -->
       <q-header bordered class="bg-white">
-        <q-toolbar
-          class="text-primary items-center q-gutter-md row justify-center q-pa-md"
-        >
+        <q-toolbar class="text-primary items-center q-gutter-md row justify-center q-pa-md">
           <q-avatar>
             <img :src="LogoPag" />
           </q-avatar>
@@ -21,13 +14,7 @@
 
       <!-- ======== PIE DE PÁGINA ====== -->
       <q-footer bordered class="bg-grey-3 text-primary">
-        <q-tabs
-          no-caps
-          active-color="primary"
-          indicator-color="transparent"
-          class="text-grey-8"
-          v-model="tab"
-        >
+        <q-tabs no-caps active-color="primary" indicator-color="transparent" class="text-grey-8" v-model="tab">
           <q-tab name="parati" label="Para tí" />
           <q-tab name="tendencias" label="Tendencias" />
         </q-tabs>
@@ -40,78 +27,62 @@
 
           <!-- Contenido PARA TI -->
           <div v-show="tab === 'parati'">
-            
-            <div
-              class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg"
-            >
-              <CardParaTi
-                v-for="card in infoCards"
-                :key="card.nombreUsuario"
-                :card="card"
-              />
+
+            <div class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg">
+              <CardParaTi v-for="card in infoCards" :key="card.nombreUsuario" :card="card" />
             </div>
           </div>
 
           <!-- Contenido TENDENCIAS -->
-          <div
-            v-show="tab === 'tendencias'"
-            class="column justify-center q-gutter-xl"
-          >
+          <div v-show="tab === 'tendencias'" class="column justify-center q-gutter-xl">
             <div>
               <h3 class="text-center">TENDENCIAS</h3>
             </div>
 
             <div class="row justify-around q-gutter-md">
+
               <!-- LIKES -->
-              <div class="column justify-center items-center q-gutter-md">
+              <div class=" ordenar column justify-center items-center q-gutter-md">
                 <div>
-                  <p>Likes</p>
+                  <h3 class="q-pb-xl">Likes</h3>
                 </div>
                 <div>
-                  <CardsLikes
-                    v-for="(item, i) in Likes"
-                    :key="i"
-                    :item="item"
-                  />
+                  <CardsLikes v-for="(item, i) in Likes" :key="i" :item="item" :imgTopLeft="LikeImg"
+                    :imgTopRight="LikeImg" :imgBottomLeft="LikeImg" :imgBottomRight="LikeImg" />
                 </div>
               </div>
 
-              <!-- COMPARTIDOS -->
-              <div class="column justify-center items-center q-gutter-md">
+              <!-- COMENTARIOS -->
+              <div class=" ordenar column justify-center items-center q-gutter-md">
                 <div>
-                  <p>Comentarios</p>
+                  <h3 class="q-pb-xl">Comentarios</h3>
                 </div>
                 <div>
-                  <CardsLikes
-                    v-for="(item, i) in Comentarios"
-                    :key="i"
-                    :item="item"
-                  />
+                  <CardsLikes v-for="(item, i) in Comentarios" :key="i" :item="item" :imgTopLeft="ComentarioImg"
+                    :imgTopRight="ComentarioImg" :imgBottomLeft="ComentarioImg" :imgBottomRight="ComentarioImg" />
                 </div>
               </div>
 
-              <!-- GLOBAL -->
-              <div class="column justify-center items-center q-gutter-md">
+              <!-- COMAPRTIDOS -->
+              <div class=" ordenar column justify-center items-center q-gutter-md">
                 <div>
-                  <p>Compartidos</p>
+                  <h3 class="q-pb-xl">Compartidos</h3>
                 </div>
                 <div>
-                  <CardsLikes
-                    v-for="(item, i) in Compartidos"
-                    :key="i"
-                    :item="item"
-                  />
+                  <CardsLikes v-for="(item, i) in Compartidos" :key="i" :item="item" :imgTopLeft="CompartidoImg"
+                    :imgTopRight="CompartidoImg" :imgBottomLeft="CompartidoImg" :imgBottomRight="CompartidoImg" />
                 </div>
               </div>
             </div>
 
             <!-- GLOBAL -->
-            <div class="column justify-center items-center q-gutter-md">
+            <div class=" column justify-center items-center q-gutter-md">
               <div>
-                <p>Global</p>
+                <h3 class="q-pb-xl">Global</h3>
               </div>
               <div>
-                <CardsLikes v-for="(item, i) in Global" :key="i" :item="item" />
+                <CardsLikes v-for="(item, i) in Global" :key="i" :item="item" :imgTopLeft="GlobalImg"
+                  :imgTopRight="GlobalImg" :imgBottomLeft="GlobalImg" :imgBottomRight="GlobalImg" />
               </div>
             </div>
           </div>
@@ -128,6 +99,10 @@ import { ref } from "vue";
 // DIEGO
 import LogoPag from "./assets/Logo.png";
 import CardsLikes from "./components/CardsLikes.vue";
+import LikeImg from "./assets/Likes.png";
+import ComentarioImg from "./assets/Comentarios.png";
+import CompartidoImg from "./assets/Compartidos.png";
+import GlobalImg from "./assets/Global.png";
 
 // ANDRES
 import CardParaTi from "./components/CardParaTi.vue";
@@ -165,5 +140,17 @@ body {
 .q-avatar {
   width: 150px;
   height: auto;
+}
+
+h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.text-h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.ordenar{
+  margin: 0 !important;
 }
 </style>

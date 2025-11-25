@@ -1,105 +1,106 @@
 <template>
-  <q-card class="my-card">
+  <div class="rank-container">
 
-    <q-img :src="item.fotoPerfil" class="card-img">
+    <div class="medalla">{{ medalla }}</div>
 
-      <img :src="Like" class="like-icon like-top-left" />
-      <img :src="Like" class="like-icon like-top-right" />
-      <img :src="Like" class="like-icon like-bottom-left" />
-      <img :src="Like" class="like-icon like-bottom-right" />
+    <q-card class="my-card">
+      <q-img :src="item.fotoPerfil" class="card-img" fit="cover">
 
-      <div class="absolute-bottom text-subtitle2 text-center">
+        <img :src="imgTopLeft" class="like-icon like-top-left" />
+        <img :src="imgTopRight" class="like-icon like-top-right" />
+        <img :src="imgBottomLeft" class="like-icon like-bottom-left" />
+        <img :src="imgBottomRight" class="like-icon like-bottom-right" />
 
-        <div class="flex items-center">
-          <div :class="colorTexto + ' ' + tamañoEmoji">
-            {{ item.emoji }}
+        <div class="absolute-bottom text-subtitle2 text-center">
+
+          <div class="flex items-center">
+            <div :class="colorTexto + ' ' + tamañoEmoji">
+              {{ item.emoji }}
+            </div>
+
+            <div :class="colorTexto + ' ' + tamañoLetra">
+              {{ item.title }}
+            </div>
           </div>
 
           <div :class="colorTexto + ' ' + tamañoLetra">
-            {{ item.title }}
+            {{ item.nombreUsuario.toUpperCase() }}
           </div>
+
         </div>
 
-        <div :class="colorTexto + ' ' + tamañoLetra">
-          {{ item.nombreUsuario.toUpperCase() }}
-        </div>
-
-      </div>
-
-    </q-img>
-
-  </q-card>
+      </q-img>
+    </q-card>
+  </div>
 </template>
 
-
-
 <script setup>
-
+import { computed } from "vue";
 import { QImg, QCard } from "quasar";
-import Like from "@/assets/Likes.png";
+import Logo from "@/assets/Logo.png";
 
-defineProps({
-  item: {
-    type: Object,
-    required: true
-  },
-  colorTexto: {
-    type: String,
-    default: "text-white"
-  },
-  colorFondo: {
-    type: String,
-    default: "bg-black"
-  },
-  tamañoLetra: {
-    type: String,
-    default: "text-h6"
-  },
-  tamañoEmoji: {
-    type: String,
-    default: "text-h3"
-  }
+const props = defineProps({
+  item: Object,
+  colorTexto: { type: String, default: "text-white" },
+  tamañoLetra: { type: String, default: "text-h6" },
+  tamañoEmoji: { type: String, default: "text-h3" },
+  imgTopLeft: { type: String, default: Logo },
+  imgTopRight: { type: String, default: Logo },
+  imgBottomLeft: { type: String, default: Logo },
+  imgBottomRight: { type: String, default: Logo },
 });
 </script>
 
 <style scoped>
-.my-card {
-  width: 250px;
+
+/* Contenedor TOP */
+.rank-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(20px, 6vw, 50px);
+  transition: transform .3s ease;
 }
 
-.card-img {
-  height: 250px;
+.medalla {
+  font-size: clamp(1.2rem, 4vw, 2rem);
 }
+
+.my-card {
+  width: clamp(200px, 35vw, 250px);
+}
+
 
 .like-icon {
   position: absolute;
-  width: 26px;
-  height: 26px;
+  width: clamp(18px, 4vw, 26px);
+  height: clamp(18px, 4vw, 26px);
   z-index: 20;
   object-fit: contain;
 }
 
 .like-top-left {
-  top: 2px;
-  left: 2px;
+  top: clamp(1px, 0.6vw, 2px);
+  left: clamp(1px, 0.6vw, 2px);
   transform: rotate(-50deg);
 }
 
 .like-top-right {
-  top: 2px;
-  right: 2px;
-   transform: rotate(50deg);
+  top: clamp(1px, 0.6vw, 2px);
+  right: clamp(1px, 0.6vw, 2px);
+  transform: rotate(50deg);
 }
 
 .like-bottom-left {
-  bottom: 2px;
-  left: 2px;
-   transform: rotate(50deg);
+  bottom: clamp(1px, 0.6vw, 2px);
+  left: clamp(1px, 0.6vw, 2px);
+  transform: rotate(50deg);
 }
 
 .like-bottom-right {
-  bottom: 2px;
-  right: 2px;
+  bottom: clamp(1px, 0.6vw, 2px);
+  right: clamp(1px, 0.6vw, 2px);
   transform: rotate(-50deg);
 }
+
 </style>
