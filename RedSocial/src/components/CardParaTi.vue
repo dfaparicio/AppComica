@@ -14,7 +14,7 @@
     </div>
 
     <div class="hashtags">
-      <span class="tag" v-for="(tag, index) in infoCard.hashtags" :key="index">
+      <span v-for="(tag, i) in infoCard.hashtags" :key="i" class="hashtag">
         {{ tag }}
       </span>
     </div>
@@ -74,7 +74,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
@@ -99,7 +98,9 @@ if (!infoCard.id) {
   infoCard.id = infoCard.nombreUsuario;
 }
 
-let cardsGuardadas = JSON.parse(localStorage.getItem("cards")) || {};
+const cardsGuardadas = reactive(
+  JSON.parse(localStorage.getItem("cards") || "{}")
+);
 
 if (cardsGuardadas[infoCard.id]) {
   Object.assign(infoCard, cardsGuardadas[infoCard.id]);
@@ -152,7 +153,10 @@ function toggleLike() {
 watch(
   infoCard,
   (nuevo) => {
+    const cardsGuardadas = JSON.parse(localStorage.getItem("cards")) || {};
+
     cardsGuardadas[infoCard.id] = { ...nuevo };
+
     localStorage.setItem("cards", JSON.stringify(cardsGuardadas));
   },
   { deep: true }
