@@ -43,4 +43,45 @@ const cardsParatiData = ref([
   }
 ]);
 
+export const nombresEstilo = [
+  "factura_freak",
+  "ticket_king",
+  "cupon_ninja",
+  "supermercado_warrior",
+  "recibo_sensei",
+  "ofertas_monster",
+  "ticketlover",
+  "carrito_pro",
+  "cuenta_extrema",
+  "gasto_hunter",
+  "promo_master",
+  "descuento_queen",
+  "mercado_joker",
+  "ticketwizard",
+  "recibo_champion",
+  "cupon_maniac",
+  "oferta_legend",
+  "compra_geek",
+  "lista_loca",
+  "economia_vip",
+  "shopping_guru",
+  "bolsa_misteriosa",
+  "carrito_rapido",
+  "ticket_samurai",
+  "recibo_doctor",
+  "factura_nerd",
+  "mercado_hero",
+  "super_tiquete",
+  "cupon_rider",
+  "compra_meme"
+];
+
+export const fotosPerfilRandom = [
+  "https://cdn-icons-png.flaticon.com/512/4841/4841256.png",
+  "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+  "https://cdn-icons-png.flaticon.com/512/2977/2977402.png",
+  "https://cdn-icons-png.flaticon.com/512/809/809052.png",
+  "https://cdn-icons-png.flaticon.com/512/1864/1864472.png"
+];
+
 export default cardsParatiData;

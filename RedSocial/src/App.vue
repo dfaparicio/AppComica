@@ -25,11 +25,51 @@
         <q-page>
           <!-- ======= Contenido  ======= -->
 
-          <!-- Contenido PARA TI -->
-          <div v-show="tab === 'parati'">
+          <!-- Botón para abrir el modal -->
+          <q-btn label="Agregar publicación" color="primary" @click="abrirModal" />
 
-            <div class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg">
-              <CardParaTi v-for="card in infoCards" :key="card.nombreUsuario" :card="card" />
+          <!-- Modal -->
+          <q-dialog v-model="showModal">
+            <q-card style="min-width: 400px">
+              <q-card-section>
+                <div class="text-h6">Nueva publicación</div>
+              </q-card-section>
+
+              <q-card-section>
+                <q-input filled v-model="nuevaPublicacion.nombreUsuario" label="Usuario" readonly />
+
+                <q-input filled v-model="nuevaPublicacion.descripcion" label="Descripción" type="textarea" />
+                <q-input filled v-model="nuevaPublicacion.fotoPerfil" label="URL Foto de perfil" readonly />
+
+                <!-- SUBIR IMAGEN DESDE ARCHIVO -->
+                <q-file filled v-model="archivoImagen" label="Subir imagen desde el dispositivo" accept="image/*"
+                  @update:model-value="convertirImagen" />
+
+                <!-- OPCIONAL: URL DE IMAGEN -->
+                <q-input filled v-model="nuevaPublicacion.imagenPublicacion" label="o URL Imagen de publicación" />
+
+                <q-select filled v-model="nuevaPublicacion.hashtags" :options="hashtagsOpciones" label="Hashtags"
+                  multiple use-input use-chips hide-dropdown-icon new-value-mode="add-unique"
+                  @new-value="agregarHashtag" />
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="Cancelar" color="negative" v-close-popup />
+                <q-btn flat label="Agregar" color="primary" @click="agregarPublicacion" />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+
+          <!-- Contenedor de cards existente -->
+          <div v-show="tab === 'parati'">
+            <div
+              class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg"
+            >
+              <CardParaTi
+                v-for="card in infoCards"
+                :key="card.nombreUsuario"
+                :card="card"
+              />
             </div>
           </div>
 
@@ -94,9 +134,7 @@
 
 
 <script setup>
-import { ref } from "vue";
-
-// DIEGO
+import { ref, reactive } from "vue";
 import LogoPag from "./assets/Logo.png";
 import CardsLikes from "./components/CardsLikes.vue";
 import LikeImg from "./assets/Likes.png";
@@ -106,12 +144,98 @@ import GlobalImg from "./assets/Global.png";
 
 // ANDRES
 import CardParaTi from "./components/CardParaTi.vue";
-const infoCards = ref(cardsParati.value);
-import cardsParati from "./data/cards.js";
+import cardsParatiData from "./data/cards.js";
+import { nombresEstilo, fotosPerfilRandom } from "./data/cards.js";
+import { Likes, Comentarios, Compartidos, Global } from "./data/CardsTop.js";
+
+const guardadas = JSON.parse(localStorage.getItem("publicaciones"));
+const infoCards = ref(guardadas || [...cardsParatiData.value]);
 
 const tab = ref("parati");
-import { Likes, Comentarios, Compartidos, Global } from "./data/CardsTop.js";
+const showModal = ref(false);
+
+const nuevaPublicacion = reactive({
+  nombreUsuario: "",
+  fotoPerfil: "",
+  descripcion: "",
+  imagenPublicacion: "",
+  hashtags: [],
+  likes: 0,
+  liked: false,
+  compartidos: 0,
+  comentarios: [],
+  id: "",
+});
+
+const hashtagsString = ref("");
+const archivoImagen = ref(null);
+
+function abrirModal() {
+  showModal.value = true;
+}
+
+function limpiarFormulario() {
+  nuevaPublicacion.nombreUsuario = ""; // 👈 nombre random
+  nuevaPublicacion.fotoPerfil = "";
+  nuevaPublicacion.descripcion = "";
+  nuevaPublicacion.imagenPublicacion = "";
+  nuevaPublicacion.hashtags = [];
+  hashtagsString.value = "";
+}
+
+function nombreAleatorio() {
+  const index = Math.floor(Math.random() * nombresEstilo.length);
+  return nombresEstilo[index];
+}
+
+function getFotoRandom() {
+  const i = Math.floor(Math.random() * fotosPerfilRandom.length);
+  return fotosPerfilRandom[i];
+}
+
+function agregarPublicacion() {
+  nuevaPublicacion.nombreUsuario = nombreAleatorio(); // asignar nombre aleatorio
+  nuevaPublicacion.fotoPerfil = getFotoRandom();
+  nuevaPublicacion.hashtags = [...nuevaPublicacion.hashtags];
+
+  infoCards.value.push({ ...nuevaPublicacion });
+
+  localStorage.setItem("publicaciones", JSON.stringify(infoCards.value));
+
+  limpiarFormulario();
+  showModal.value = false;
+}
+
+function convertirImagen() {
+  const file = archivoImagen.value;
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    nuevaPublicacion.imagenPublicacion = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+const hashtagsOpciones = ref([
+  "#ReciboLargo",
+  "#TicketMega",
+  "#Cupones",
+  "#AhorroTotal",
+  "#SuperMercado",
+  "#WTF",
+  "#CocinaFail",
+]);
+
+function agregarHashtag(val, done) {
+  const hashtag = val.startsWith("#") ? val : "#" + val;
+  if (!hashtagsOpciones.value.includes(hashtag)) {
+    hashtagsOpciones.value.push(hashtag);
+  }
+  done(hashtag);
+}
 </script>
+
+
 
 <style scoped>
 * {
@@ -129,7 +253,6 @@ body {
   background: white;
 }
 
-/* ---------- APP ---------- */
 #app {
   width: 100%;
   max-width: 1920px;
@@ -138,8 +261,50 @@ body {
 }
 
 .q-avatar {
-  width: 150px;
-  height: auto;
+  width: 50px;
+  height: 50px;
+}
+
+/* CardParaTi */
+.q-dialog .q-card {
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.q-dialog .text-h6 {
+  font-weight: 600;
+  font-size: 20px;
+  text-align: center;
+  color: #2b2b2b;
+}
+
+.q-dialog .q-input,
+.q-dialog .q-file {
+  margin-bottom: 15px;
+}
+
+.q-dialog .q-btn {
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.q-dialog .q-btn[color="primary"] {
+  background: #2962ff;
+  color: white;
+}
+
+.q-dialog .q-btn[color="negative"] {
+  color: #d32f2f;
+}
+
+.q-card-section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.q-card-actions {
+  padding: 10px 15px;
 }
 
 h3 {
@@ -150,7 +315,7 @@ h3 {
   font-size: clamp(2rem, 4vw, 3rem);
 }
 
-.ordenar{
+.ordenar {
   margin: 0 !important;
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
   <div class="rank-container">
 
-    <div class="medalla">{{ medalla }}</div>
-
     <q-card class="my-card">
       <q-img :src="item.fotoPerfil" class="card-img" fit="cover">
 
@@ -35,7 +33,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { QImg, QCard } from "quasar";
 import Logo from "@/assets/Logo.png";
 
@@ -53,17 +50,12 @@ const props = defineProps({
 
 <style scoped>
 
-/* Contenedor TOP */
 .rank-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: clamp(20px, 6vw, 50px);
   transition: transform .3s ease;
-}
-
-.medalla {
-  font-size: clamp(1.2rem, 4vw, 2rem);
 }
 
 .my-card {
