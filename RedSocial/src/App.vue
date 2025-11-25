@@ -62,14 +62,8 @@
 
           <!-- Contenedor de cards existente -->
           <div v-show="tab === 'parati'">
-            <div
-              class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg"
-            >
-              <CardParaTi
-                v-for="card in infoCards"
-                :key="card.nombreUsuario"
-                :card="card"
-              />
+            <div class="contenedor-cards row q-gutter-md justify-evenly q-pa-lg">
+              <CardParaTi v-for="card in infoCards" :key="card.nombreUsuario" :card="card" />
             </div>
           </div>
 
@@ -175,7 +169,7 @@ function abrirModal() {
 }
 
 function limpiarFormulario() {
-  nuevaPublicacion.nombreUsuario = ""; // 👈 nombre random
+  nuevaPublicacion.nombreUsuario = "";
   nuevaPublicacion.fotoPerfil = "";
   nuevaPublicacion.descripcion = "";
   nuevaPublicacion.imagenPublicacion = "";
@@ -194,7 +188,7 @@ function getFotoRandom() {
 }
 
 function agregarPublicacion() {
-  nuevaPublicacion.nombreUsuario = nombreAleatorio(); // asignar nombre aleatorio
+  nuevaPublicacion.nombreUsuario = nombreAleatorio();
   nuevaPublicacion.fotoPerfil = getFotoRandom();
   nuevaPublicacion.hashtags = [...nuevaPublicacion.hashtags];
 
@@ -265,7 +259,6 @@ body {
   height: 50px;
 }
 
-/* CardParaTi */
 .q-dialog .q-card {
   border-radius: 18px;
   padding: 10px;
