@@ -39,18 +39,13 @@
                 <q-input filled v-model="nuevaPublicacion.nombreUsuario" label="Usuario" readonly />
 
                 <q-input filled v-model="nuevaPublicacion.descripcion" label="Descripción" type="textarea" />
-                <q-input filled v-model="nuevaPublicacion.fotoPerfil" label="URL Foto de perfil" readonly />
 
                 <!-- SUBIR IMAGEN DESDE ARCHIVO -->
                 <q-file filled v-model="archivoImagen" label="Subir imagen desde el dispositivo" accept="image/*"
                   @update:model-value="convertirImagen" />
 
-                <!-- OPCIONAL: URL DE IMAGEN -->
-                <q-input filled v-model="nuevaPublicacion.imagenPublicacion" label="o URL Imagen de publicación" />
-
                 <q-select filled v-model="nuevaPublicacion.hashtags" :options="hashtagsOpciones" label="Hashtags"
-                  multiple use-input use-chips hide-dropdown-icon new-value-mode="add-unique"
-                  @new-value="agregarHashtag" />
+                  multiple use-chips hide-dropdown-icon />
               </q-card-section>
 
               <q-card-actions align="right">
@@ -220,14 +215,6 @@ const hashtagsOpciones = ref([
   "#WTF",
   "#CocinaFail",
 ]);
-
-function agregarHashtag(val, done) {
-  const hashtag = val.startsWith("#") ? val : "#" + val;
-  if (!hashtagsOpciones.value.includes(hashtag)) {
-    hashtagsOpciones.value.push(hashtag);
-  }
-  done(hashtag);
-}
 </script>
 
 
