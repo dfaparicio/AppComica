@@ -110,11 +110,11 @@
             </div>
 
             <!-- GLOBAL -->
-            <div class=" column justify-center items-center q-gutter-md">
+            <div class=" global column justify-center items-center q-gutter-md">
               <div>
                 <h3 class="q-pb-xl">Global</h3>
               </div>
-              <div>
+              <div class="ordenarglobal">
                 <CardsLikes v-for="(item, i) in Global" :key="i" :item="item" :imgTopLeft="GlobalImg"
                   :imgTopRight="GlobalImg" :imgBottomLeft="GlobalImg" :imgBottomRight="GlobalImg" />
               </div>
@@ -135,12 +135,13 @@ import LikeImg from "./assets/Likes.png";
 import ComentarioImg from "./assets/Comentarios.png";
 import CompartidoImg from "./assets/Compartidos.png";
 import GlobalImg from "./assets/Global.png";
+import { Likes, Comentarios, Compartidos, Global } from "./data/CardsTop.js";
 
 // ANDRES
 import CardParaTi from "./components/CardParaTi.vue";
 import cardsParatiData from "./data/cards.js";
 import { nombresEstilo, fotosPerfilRandom } from "./data/cards.js";
-import { Likes, Comentarios, Compartidos, Global } from "./data/CardsTop.js";
+
 
 const guardadas = JSON.parse(localStorage.getItem("publicaciones"));
 const infoCards = ref(guardadas || [...cardsParatiData.value]);
@@ -310,5 +311,14 @@ h3 {
 
 .ordenar {
   margin: 0 !important;
+}
+
+
+.ordenarglobal{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 }
 </style>
