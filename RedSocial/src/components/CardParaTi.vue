@@ -23,7 +23,7 @@
 
     <div class="interaccion">
       <div class="like" :class="{ active: infoCard.liked }" @click="toggleLike">
-        {{ infoCard.likes }}
+        👍 {{ infoCard.likes }}
       </div>
 
       <div class="comentario" @click="abrirComentario">
@@ -53,11 +53,20 @@
 
             <div v-else class="column q-gutter-sm">
               <div
-                v-for="(comentario, index) in infoCard.comentarios"
-                :key="index"
-                class="q-pa-sm bg-grey-2 rounded-borders"
+                v-for="comentario in infoCard.comentarios"
+                :key="comentario.id"
+                class="q-pa-sm bg-grey-2 rounded-borders row items-start q-gutter-sm"
               >
-                {{ comentario }}
+                <img
+                  :src="comentario.foto"
+                  class="rounded-circle"
+                  style="width: 40px; height: 40px; object-fit: cover"
+                />
+
+                <div class="column">
+                  <strong>{{ comentario.nombre }}</strong>
+                  <div>{{ comentario.texto }}</div>
+                </div>
               </div>
             </div>
           </q-card-section>
@@ -79,6 +88,7 @@
 <script setup>
 import { ref, reactive, watch } from "vue";
 import { Loading } from "quasar";
+import { nombresEstilo, fotosPerfilRandom } from "../data/cards.js";
 
 const props = defineProps({
   card: {
@@ -87,6 +97,7 @@ const props = defineProps({
   },
 });
 
+//CREA ARRAY
 const infoCard = reactive({
   ...props.card,
   comentarios: Array.isArray(props.card.comentarios)
@@ -110,6 +121,7 @@ if (cardsGuardadas[infoCard.id]) {
   }
 }
 
+//COMPARTIR
 const emit = defineEmits(["compartido", "like-change"]);
 
 function compartir() {
@@ -122,6 +134,7 @@ function compartir() {
   }, 1200);
 }
 
+//COMENTARIOS
 const modalComentario = ref(false);
 const nuevoComentario = ref("");
 
@@ -129,19 +142,36 @@ function abrirComentario() {
   modalComentario.value = true;
 }
 
+function nombreAleatorio() {
+  const index = Math.floor(Math.random() * nombresEstilo.length);
+  return nombresEstilo[index];
+}
+
+function getFotoRandom() {
+  const i = Math.floor(Math.random() * fotosPerfilRandom.length);
+  return fotosPerfilRandom[i];
+}
+
 function guardarComentario() {
   const texto = nuevoComentario.value.trim();
   if (!texto) return;
 
-  infoCard.comentarios.push(texto);
+  infoCard.comentarios.push({
+    id: crypto.randomUUID(),
+    texto,
+    nombre: nombreAleatorio(),
+    foto: getFotoRandom(),
+    fecha: new Date().toISOString(),
+  });
 
   nuevoComentario.value = "";
   modalComentario.value = false;
 }
 
+//LIKE
 function toggleLike() {
-  infoCard.liked = !infoCard.liked;
-  infoCard.likes += infoCard.liked ? 1 : -1;
+  infoCard.liked = true;
+  infoCard.likes++;
 
   emit("like-change", {
     id: infoCard.id,
@@ -239,13 +269,17 @@ p {
 }
 
 .interaccion {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1.2rem;
+  padding: 10px 0;
+  margin-top: 10px;
+  border-top: 1px solid #e0e0e0;
 }
 
 .like {
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
   transition: color 0.2s;
   display: inline-flex;
@@ -258,6 +292,48 @@ p {
 .like.active {
   color: #1877f2;
   animation: pop 0.25s ease;
+}
+
+.comentario {
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  transition: 0.2s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.comentario:hover {
+  transform: scale(1.1);
+  background: rgba(24, 119, 242, 0.1);
+  color: #1877f2;
+}
+
+.compartido {
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  transition: 0.2s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.compartido:hover {
+  transform: scale(1.1);
+  background: rgba(0, 200, 83, 0.1);
+  color: #00c853;
+}
+
+.compartido:active {
+  transform: scale(0.92);
 }
 
 @keyframes pop {
